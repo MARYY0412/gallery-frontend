@@ -1,0 +1,228 @@
+@import url("https://fonts.googleapis.com/css2?family=Dosis:wght@300&display=swap");
+
+:root {
+  --backgroundDark: rgba(11, 30, 72, 0.9);
+  --fontDark: #ffffff;
+
+  --backgroundLight: #ffffff;
+  --fontLight: #rgba(11, 30, 72, 0.9);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  font-family: "Dosis", sans-serif;
+  font-weight: 500;
+}
+
+/* html {
+  scroll-behavior: smooth;
+} */
+.dark-theme {
+  background-color: var(--backgroundDark);
+  color: var(--fontDark);
+}
+.light-theme {
+  background-color: var(--backgroundLight);
+  color: var(--fontLight);
+}
+a {
+  color: black;
+  text-decoration: none;
+}
+/* .App { */
+/* min-width: 100vw; */
+/* min-height: 90vh; */
+/* } */
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  min-height: 100vh;
+}
+/* SIDEBAR CLASSES */
+.hide-menu {
+  left: -200px;
+}
+.visible-menu {
+  left: 0px;
+}
+
+/* STANDARD FORM FOR APP */
+.standard-form {
+  width: 260px;
+  min-height: 300px;
+  padding: 10px;
+  margin-top: 20%;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+  -webkit-box-shadow: 8px 8px 20px 0px rgba(66, 68, 90, 1);
+  -moz-box-shadow: 8px 8px 20px 0px rgba(66, 68, 90, 1);
+  box-shadow: 8px 8px 20px 0px rgba(66, 68, 90, 1);
+  > div {
+    margin: 10px;
+    width: 100%;
+    /* text-align: center; */
+    > p {
+      color: gray;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+  }
+}
+.form-title-class {
+  text-transform: uppercase;
+  letter-spacing: 8px;
+  color: cadetblue;
+  font-size: 18px;
+  padding: 10px;
+  text-align: center;
+  font-family: "Dosis", sans-serif;
+}
+.form-button-class {
+  padding: 10px 50px;
+  border: 3px solid gray;
+  border-radius: 10px;
+  transition: 1s all;
+  cursor: pointer;
+  margin: 10px;
+}
+.form-button-class:hover {
+  background-color: lightgray;
+  border: 3px solid lightgray;
+}
+.form-input-class {
+  border: none;
+  border-bottom: 1px solid gray;
+  text-align: center;
+  height: 25px;
+  margin: 5px 0px;
+  width: 100%;
+}
+.form-input-date-class {
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+}
+.form-input-file-class {
+  padding-left: 15px;
+}
+.form-info-p {
+  height: 20px;
+  font-size: 12px;
+  color: green;
+  padding: 5px;
+}
+.form-error-p {
+  height: 20px;
+  font-size: 12px;
+  color: red;
+}
+.form-delete-button {
+  letter-spacing: 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 160px;
+  height: 40px;
+  border: none;
+  padding: 10px 30px;
+  font-size: 12px;
+  background-color: rgba(250, 60, 20, 1);
+  cursor: pointer;
+  transition: 1s all;
+  border: 3px solid white;
+  border-radius: 10px;
+  color: white;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+.form-delete-button:hover {
+  border: 3px solid rgba(250, 60, 20, 1);
+}
+
+/* STANDARD FORM CLASS 2 */
+
+.form-input-class-2 {
+  width: 100%;
+  border: none;
+  padding: 10px 15px;
+  border-bottom: 2px solid green;
+  font-size: 16px;
+  background-color: rgba(255, 255, 255, 0.1);
+  :focus {
+    outline: none;
+  }
+}
+.form-input-class-2:focus {
+  outline: none;
+}
+.form-button-class-2 {
+  background-color: rgba(59, 157, 56, 1);
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  padding: 5px 60px;
+  cursor: pointer;
+  border: none;
+  border: 2px solid white;
+  border-radius: 5px;
+  transition: 1s all;
+}
+.form-button-class-2:hover {
+  opacity: 0.8;
+  border: 2px solid rgba(59, 157, 56, 1);
+}
+
+.button-disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+/* render-nav */
+
+.render-nav {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 40px 0px;
+  margin-bottom: 30px;
+  @media (max-width: 800px) {
+    flex-direction: column;
+    align-items: center;
+  }
+  .render-nav-link {
+    letter-spacing: 3px;
+    margin: 5px;
+    border: 1px solid white;
+    border-radius: 5px;
+    width: 200px;
+    text-align: center;
+    padding: 5px;
+    transition: 1s all;
+    cursor: pointer;
+  }
+  .render-nav-link-icon {
+    font-size: 40px;
+    opacity: 0.8;
+    margin: 5px;
+  }
+  .active-link {
+    background-color: lightgray;
+    color: black;
+  }
+
+  .render-nav-content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}
