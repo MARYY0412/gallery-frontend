@@ -1,10 +1,14 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { RxCross1 } from "react-icons/rx";
+import { useEffect } from "react";
 type Props = {
   theme: string;
 };
 function SessionExpired(props: Props) {
+  useEffect(() => {
+    localStorage.removeItem("token");
+  }, []);
   return (
     <SessionExpiredBox>
       <div>

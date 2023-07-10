@@ -177,7 +177,6 @@ export const changeAvatar = async (user_id: string, newAvatar: File) => {
       {
         headers: {
           Authorization: `Bearer ${user.token}`,
-          // "Content-Type": "multipart/form-data",
         },
       }
     );
@@ -237,30 +236,46 @@ export const deleteAccount = async (user_id: string) => {
 
 //IMAGES
 export const deleteImageByUser = async (image_id: string, filename: string) => {
-  try {
-    let response = await axios.delete(
-      `http://127.0.0.1:3001/photos/${image_id}`,
-      {
-        data: {
-          filename: filename,
-        },
-      }
-    );
-    return response;
-  } catch (err) {
-    console.log(err);
-    return err;
+  const storageString = localStorage.getItem("token");
+  if (storageString) {
+    let user = JSON.parse(storageString);
+    try {
+      let response = await axios.delete(
+        `http://127.0.0.1:3001/photos/${image_id}`,
+        {
+          data: {
+            filename: filename,
+          },
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
   }
 };
 
 export const deleteMessages = async (imageIds: string[]) => {
-  try {
-    let response = await axios.post(`http://127.0.0.1:3001/messages/delete`, {
-      data: imageIds,
-    });
-    return response;
-  } catch (err) {
-    return err;
+  const storageString = localStorage.getItem("token");
+
+  if (storageString) {
+    let user = JSON.parse(storageString);
+    try {
+      let response = await axios.post(`http://127.0.0.1:3001/messages/delete`, {
+        data: imageIds,
+
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      return response;
+    } catch (err) {
+      return err;
+    }
   }
 };
 

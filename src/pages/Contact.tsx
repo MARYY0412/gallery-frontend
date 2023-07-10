@@ -7,19 +7,19 @@ function Contact() {
     <ContactBox>
       <form action="" className="contact-form">
         <h3 className="form-title-class">Contact</h3>
-        <p className="contact-p">name:</p>
+        <p className="contact-p">*name:</p>
         <input
           type="text"
           className="contact-text"
           placeholder="enter your name"
         />
-        <p className="contact-p">email:</p>
+        <p className="contact-p">*email:</p>
         <input
           type="text"
           className="contact-text"
           placeholder="enter your email"
         />
-        <p className="contact-p">your message:</p>
+        <p className="contact-p">*your message:</p>
         <textarea className="contact-text-area" />
         <button className="form-button-class-2">send message</button>
       </form>

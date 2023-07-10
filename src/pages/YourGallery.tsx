@@ -9,7 +9,7 @@ import { AiOutlinePicture } from "react-icons/ai";
 function YourGallery() {
   const [activeComponent, setActiveComponent] = useState<
     "add-image" | "add-images" | "all-images"
-  >("add-images");
+  >("all-images");
 
   return (
     <YourGalleryComponent>
