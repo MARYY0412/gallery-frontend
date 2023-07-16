@@ -3,7 +3,19 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import axios from "axios";
-function NewMessage() {
+import {
+  checkRecipentExist,
+  dateNowToString,
+  sendMessage,
+  fetchSentMessages,
+} from "../../utils/BackendMethods";
+import { IMessage, IMessageToSend } from "../../types/Types";
+
+type Props = {
+  setSent: React.Dispatch<React.SetStateAction<any>>;
+};
+
+function NewMessage({ setSent }: Props) {
   const user = useSelector((state: RootState) => state.user);
   const [recipent, setRecipent] = useState<string>("");
   const [recipentErr, setRecipentErr] = useState<string>("");
@@ -21,22 +33,20 @@ function NewMessage() {
     setRecipent(e.target.value);
   };
   //submit button handle
-  const handleSendMessButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSendMessButton = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
     checkRecipentsInput();
 
-    axios
-      .post("http://127.0.0.1:3001/messages/send")
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const message: IMessageToSend = {
+      content: content,
+      theme: theme,
+      date: dateNowToString(),
+      recipent: recipent,
+      sender: user.ID,
+    };
 
-    axios
-      .post("http://127.0.0.1:3001/messages/check-recipents", {
-        data: recipent,
-      })
+    let check = await checkRecipentExist(recipent)
       .then((data) => {
         const incorrectRecipents = data.data.filter(
           (item: { username: string; flag: boolean }) => item.flag === false
@@ -52,10 +62,20 @@ function NewMessage() {
           setRecipentInfo("Recipents OK");
           setRecipentErr("");
 
-          axios
-            .post("http://127.0.0.1:3001/messages/send")
+          sendMessage(message)
             .then((data) => {
-              console.log(data);
+              fetchSentMessages()
+                .then((data) => {
+                  setSent(data.data);
+                  setContent("");
+                  setRecipent("");
+                  setRecipentErr("");
+                  setRecipentInfo("Message sent");
+                  setTheme("");
+                })
+                .catch((err) => {
+                  console.log("cannot fetch messages");
+                });
             })
             .catch((err) => {
               console.log(err);
@@ -63,28 +83,19 @@ function NewMessage() {
         }
       })
       .catch((err) => {
-        console.log(err);
-        setRecipentErr("something went wrong, check recipents");
-        setRecipentInfo("");
+        setRecipentInfo("an error occured, try again later!");
+        setRecipentErr("");
       });
   };
-  const handleBlurRecipent = () => {
-    // checkRecipentsInput().then((data) => {
-    //   // if (data.status) {
-    //   // }
-    // });
-    // console.log(check);
-    axios
-      .post("http://127.0.0.1:3001/messages/check-recipents", {
-        data: recipent,
-      })
+  const handleBlurRecipent = async () => {
+    let check = await checkRecipentExist(recipent)
       .then((data) => {
         const incorrectRecipents = data.data.filter(
           (item: { username: string; flag: boolean }) => item.flag === false
         );
         if (incorrectRecipents.length !== 0) {
           setRecipentErr(
-            `some recipents are incorrect ${incorrectRecipents.map(
+            `these recipents are incorrect ${incorrectRecipents.map(
               (item: { username: string; flag: boolean }) => item.username
             )}`
           );
@@ -95,9 +106,8 @@ function NewMessage() {
         }
       })
       .catch((err) => {
-        console.log(err);
-        setRecipentErr("something went wrong, check recipents");
-        setRecipentInfo("");
+        setRecipentInfo("an error occured, try again later!");
+        setRecipentErr("");
       });
   };
   const checkRecipentsInput = async () => {

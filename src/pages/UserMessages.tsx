@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { IMessage } from "../types/Types";
 import { Column } from "react-table";
 import MessagesTable from "../components/messages/MessagesTable";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import {
@@ -13,7 +12,11 @@ import {
   BsEnvelopeExclamation,
 } from "react-icons/bs";
 // import { BiMessageDetail } from "react-icons/bi";
-import { deleteMessages } from "../utils/BackendMethods";
+import {
+  deleteMessages,
+  fetchReceivedMessages,
+  fetchSentMessages,
+} from "../utils/BackendMethods";
 import NewMessage from "../components/messages/NewMessage";
 export default function UserMessages() {
   const userId = useSelector((state: RootState) => state.user.ID);
@@ -24,35 +27,6 @@ export default function UserMessages() {
     "sent" | "received" | "new-message"
   >("received");
 
-  const messageColumns: Column<IMessage>[] = React.useMemo(
-    () => [
-      {
-        Header: "ID",
-        accessor: "ID",
-      },
-      {
-        Header: "theme",
-        accessor: "theme",
-      },
-      {
-        Header: "sender",
-        accessor: "senderUsername",
-      },
-      {
-        Header: "recipent",
-        accessor: "recipentUsername",
-      },
-      {
-        Header: "content",
-        accessor: "content",
-      },
-      {
-        Header: "date",
-        accessor: "date",
-      },
-    ],
-    []
-  );
   const messageColumns2: Column<IMessage>[] = React.useMemo(
     () => [
       {
@@ -90,13 +64,7 @@ export default function UserMessages() {
       .catch((err) => {
         console.log(err);
       });
-
-    setSelected([]);
-  };
-
-  useEffect(() => {
-    axios
-      .get(`http://127.0.0.1:3001/messages/received/${userId}`)
+    fetchReceivedMessages()
       .then((data) => {
         setReceived(data.data);
       })
@@ -104,8 +72,26 @@ export default function UserMessages() {
         console.log(err);
       });
 
-    axios
-      .get(`http://127.0.0.1:3001/messages/sent/${userId}`)
+    fetchSentMessages()
+      .then((data) => {
+        setSent(data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setSelected([]);
+  };
+
+  useEffect(() => {
+    fetchReceivedMessages()
+      .then((data) => {
+        setReceived(data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    fetchSentMessages()
       .then((data) => {
         setSent(data.data);
       })
@@ -158,7 +144,7 @@ export default function UserMessages() {
         <>
           <MessagesTable
             data={received}
-            columns={messageColumns}
+            columns={messageColumns2}
             setSelected={setSelected}
             selected={selected}
           />
@@ -172,7 +158,7 @@ export default function UserMessages() {
         <>
           <MessagesTable
             data={sent}
-            columns={messageColumns}
+            columns={messageColumns2}
             setSelected={setSelected}
             selected={selected}
           />
@@ -182,7 +168,7 @@ export default function UserMessages() {
           </button>
         </>
       )}
-      {activeComponent === "new-message" && <NewMessage />}
+      {activeComponent === "new-message" && <NewMessage setSent={setSent} />}
     </MessagesBox>
   );
 }

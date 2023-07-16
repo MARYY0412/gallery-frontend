@@ -37,9 +37,19 @@ export interface IMessage {
   date: string;
   sender: string;
   recipent: string;
-  readed: boolean;
+  sender_readed?: boolean;
+  recipent_readed?: boolean;
+  sender_deleted?: boolean;
+  recipent_deleted?: boolean;
   senderUsername?: string;
   recipentUsername?: string;
+}
+export interface IMessageToSend {
+  content: string;
+  theme: string;
+  date: string;
+  sender: string;
+  recipent: string;
 }
 
 export interface IRating {

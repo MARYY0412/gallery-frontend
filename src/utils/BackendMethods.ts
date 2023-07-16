@@ -1,5 +1,11 @@
 import axios, { AxiosError } from "axios";
-import { IUserLogin, IImage, IUserRegister } from "../types/Types";
+import {
+  IUserLogin,
+  IImage,
+  IUserRegister,
+  IMessage,
+  IMessageToSend,
+} from "../types/Types";
 
 export const loginMethod = async (username: string, password: string) => {
   try {
@@ -259,26 +265,91 @@ export const deleteImageByUser = async (image_id: string, filename: string) => {
   }
 };
 
+//MASSAGES
 export const deleteMessages = async (imageIds: string[]) => {
   const storageString = localStorage.getItem("token");
 
   if (storageString) {
     let user = JSON.parse(storageString);
     try {
-      let response = await axios.post(`http://127.0.0.1:3001/messages/delete`, {
-        data: imageIds,
-
-        headers: {
-          Authorization: `Bearer ${user.token}`,
+      let response = await axios.post(
+        `http://127.0.0.1:3001/messages/delete`,
+        {
+          data: imageIds,
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
       return response;
     } catch (err) {
       return err;
     }
   }
 };
+export const sendMessage = async (message: IMessageToSend) => {
+  const storageString = localStorage.getItem("token");
 
+  if (storageString) {
+    let user = JSON.parse(storageString);
+    let response = axios.post(
+      "http://127.0.0.1:3001/messages/send",
+      {
+        content: message.content,
+        theme: message.theme,
+        date: message.date,
+        sender: message.sender,
+        recipent: message.recipent,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
+    return response;
+  } else return { data: "cannot send message" };
+};
+export const fetchReceivedMessages = async () => {
+  const storageString = localStorage.getItem("token");
+
+  if (storageString) {
+    let user = JSON.parse(storageString);
+    let response = axios.get(
+      `http://127.0.0.1:3001/messages/received/${user.ID}`,
+      {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
+    return response;
+  } else return { data: [] };
+};
+export const fetchSentMessages = async () => {
+  const storageString = localStorage.getItem("token");
+
+  if (storageString) {
+    let user = JSON.parse(storageString);
+    let response = axios.get(`http://127.0.0.1:3001/messages/sent/${user.ID}`, {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+    return response;
+  } else return { data: [] };
+};
+export const checkRecipentExist = async (recipent: string) => {
+  let response = await axios.post(
+    "http://127.0.0.1:3001/messages/check-recipents",
+    {
+      data: recipent,
+    }
+  );
+  return response;
+};
 //Create current date in yyyy-mm-dd hh-mm-ss format
 export const dateNowToString = () => {
   let year = new Date().getFullYear();

@@ -53,9 +53,7 @@ const MessagesTable: React.FC<Props> = ({
       setActiveMessages(activeMessages.filter((item) => item !== ID));
     else setActiveMessages([...activeMessages, ID]);
   };
-  // useEffect(() => {
-  //   setActiveMessages([]);
-  // }, [data]);
+
   return (
     <div className="App">
       <AdminTableBox>
