@@ -6,7 +6,7 @@ function Subscribe() {
       <p className="subscribe-p">
         Do you want to get informations about your best photto gallery? You can
         join to our <span style={{ fontWeight: "bold" }}>newsletter</span>! Just
-        add your's email and you will be kept!
+        add your email and you will be kept!
       </p>
       <form action="" className="subscribe-form">
         <input

@@ -12,6 +12,7 @@ import UserProfile from "./UserProfile";
 import YourGallery from "./YourGallery";
 import UserMessages from "./UserMessages";
 import AccessDenied from "./AccessDenied";
+import SearchingBarResults from "./SearchingBarResults"
 const pages = {
   Home,
   AdminPanel,
@@ -27,6 +28,7 @@ const pages = {
   Contact,
   UserMessages,
   AccessDenied,
+  SearchingBarResults,
 };
 
 export default pages;

@@ -10,7 +10,6 @@ interface Props {
 }
 
 const AdminTable: React.FC<Props> = ({ deleteItem, data, columns }) => {
-  console.log(data);
   const {
     getTableProps,
     getTableBodyProps,
@@ -62,13 +61,20 @@ const AdminTable: React.FC<Props> = ({ deleteItem, data, columns }) => {
                     </td>
                   );
                 })}
-                <td>
+                <td className="td-actions">
                   <button
                     onClick={() => deleteItem(row.values.ID)}
                     className="delete-button"
                   >
-                    delete
+                    DELETE
                   </button>
+                  <button
+                    onClick={() => console.log("in  progress...")}
+                    className="update-button"
+                  >
+                    UPDATE
+                  </button>
+                  <p className="show-button">click to show</p>
                 </td>
               </tr>
             );
@@ -96,7 +102,7 @@ const AdminTable: React.FC<Props> = ({ deleteItem, data, columns }) => {
 export default AdminTable;
 
 const AdminTableBox = styled.table`
-  width: 100%;
+  width: 1200px;
   background-color: rgba(217, 217, 214, 0.3);
   backdrop-filter: blur(5px);
   border-radius: 10px;
@@ -109,15 +115,37 @@ const AdminTableBox = styled.table`
   .my-row {
     padding: 20px;
   }
+  .td-actions{
+    text-align: center;
+  }
   .delete-button {
-    padding: 5px 15px;
+    margin: 5px;
+    padding: 5px 5px;
     cursor: pointer;
-    border-radius: 7px;
     border: none;
     transition: 1s all;
     font-size: 16px;
     :hover {
-      color: rgb(255, 0, 51);
+      background-color: rgb(255, 0, 51);
+    }
+  }
+  .update-button {
+    margin: 5px;
+    padding: 5px 5px;
+    cursor: pointer;
+    border: none;
+    transition: 1s all;
+    font-size: 16px;
+    :hover {
+      background-color: green;
+    }
+  }
+  .show-button{
+    font-size: 0.8em;
+    cursor: pointer;
+    transition: 1s all;
+    :hover{
+      color: gray;
     }
   }
 `;

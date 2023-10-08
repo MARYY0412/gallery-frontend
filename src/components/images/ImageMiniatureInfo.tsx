@@ -60,7 +60,7 @@ const ImageInfoBox = styled.div`
     justify-content: space-between;
 
     > p {
-      margin: auto;
+      /* margin-bottom: auto; */
       font-size: 12px;
     }
   }

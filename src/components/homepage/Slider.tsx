@@ -50,7 +50,7 @@ const SliderBox = styled.div`
     transition: 1s all;
   }
   .slider-img {
-    height: 100%;
+    height: auto;
     width: 100%;
   }
 

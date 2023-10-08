@@ -177,10 +177,6 @@ function RateImage(props: Props) {
 export default RateImage;
 
 const Box = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 50px 10px;
   .rating-image-icon {
     font-size: 30px;
     cursor: pointer;

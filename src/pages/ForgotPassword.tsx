@@ -40,7 +40,7 @@ function ForgotPassword() {
     <ForgotPassBox>
       <form
         action="post"
-        className="standard-form"
+        className="standard-form forgot-password-form"
         onSubmit={handleSubmit(submitData)}
       >
         <h4 className="form-title-class">FORGOT PASSWORD</h4>
@@ -65,6 +65,14 @@ function ForgotPassword() {
 }
 
 const ForgotPassBox = styled.div`
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .forgot-password-form{
+      width: fit-content;
+      height: fit-content;
+    }
   .form-error-p {
     color: red;
     text-align: center;

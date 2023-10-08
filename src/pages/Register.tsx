@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { IUserRegister } from "../types/Types";
 import { useNavigate } from "react-router-dom";
 import Timer from "../components/Timer";
+import { Link } from "react-router-dom";
 
 function Register() {
   const navigate = useNavigate();
@@ -145,11 +146,13 @@ function Register() {
           />
         </div>
         <p className="form-error-p">{backendErr}</p>
+        <StyledLink to={`/login`}>click here to login</StyledLink>
         {redirection && (
           <Timer label="user registered successfully" placeToRedirect="login" />
         )}
         <button className="form-button-class-2">submit</button>
       </form>
+
     </RegisterBox>
   );
 }
@@ -157,10 +160,26 @@ function Register() {
 export default Register;
 
 const RegisterBox = styled.div`
-  min-height: 80vh;
+min-height: 100vh;
+display: flex;
+align-items: center;
   .form-error-p {
     height: 20px;
     font-size: 12px;
     color: red;
+  }
+`;
+
+const StyledLink = styled(Link)`
+  text-align: left;
+  letter-spacing: 1px;
+  font-size: 14px;
+  margin: 5px;
+  padding: 10px;
+  color: inherit;
+  transition: 1s all;
+
+  :hover {
+    color: gray;
   }
 `;

@@ -85,7 +85,27 @@ export default function UserMessages() {
   useEffect(() => {
     fetchReceivedMessages()
       .then((data) => {
-        setReceived(data.data);
+        // setReceived(data.data);
+  //       ID: string;
+  // content: string;
+  // theme: string;
+  // date: string;
+  // sender: string;
+  // recipent: string;
+  // sender_readed?: boolean;
+  // recipent_readed?: boolean;
+  // sender_deleted?: boolean;
+  // recipent_deleted?: boolean;
+  // senderUsername?: string;
+  // recipentUsername?: string;
+        setReceived([
+         { ID: "1",
+          theme: "thema",
+          content: "content of message",
+          date: "22.09.2022",
+          sender: "useruser",
+          recipent: "useruser2"}
+        ])
       })
       .catch((err) => {
         console.log(err);
@@ -93,7 +113,15 @@ export default function UserMessages() {
 
     fetchSentMessages()
       .then((data) => {
-        setSent(data.data);
+        setSent([
+          { ID: "1",
+           theme: "thema",
+           content: "content of message",
+           date: "22.09.2022",
+           sender: "useruser",
+           recipent: "useruser2"}
+         ]);
+        
       })
       .catch((err) => {
         console.log(err);

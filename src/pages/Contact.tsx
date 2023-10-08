@@ -35,7 +35,7 @@ const ContactBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
+  margin: 100px 0px;
   .contact-form {
     width: 350px;
     background-color: rgba(217, 217, 214, 0.2);

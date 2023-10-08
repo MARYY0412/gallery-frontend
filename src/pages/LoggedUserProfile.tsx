@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 //components
-import ProfileBox from "../components/users/ProfileBox";
+import LoggedUserProfileBox from "../components/users/ProfileBox";
 //backend Methods
 import ChangePassword from "../components/users/ChangePassword";
 import EditProfile from "../components/users/EditProfile";
@@ -59,7 +59,7 @@ function LoggedUserProfile() {
         </div>
       </div>
 
-      {activeComponent === "profile" && <ProfileBox user={userState} />}
+      {activeComponent === "profile" && <LoggedUserProfileBox user={userState} />}
       {activeComponent === "edit-profile" && <EditProfile />}
       {activeComponent === "change-password" && <ChangePassword />}
     </Container>

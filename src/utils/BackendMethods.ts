@@ -98,6 +98,7 @@ export const fetchLoggedUserInfo = async () => {
 
       return response.data;
     } catch (err) {
+      
       return "not logged";
     }
   } else {
@@ -217,7 +218,7 @@ export const changeUserPassword = async (
   }
 };
 
-//DELETE USER'S ACCOUNT
+//DELETE USER ACCOUNT
 export const deleteAccount = async (user_id: string) => {
   const storageString = localStorage.getItem("token");
   if (storageString) {

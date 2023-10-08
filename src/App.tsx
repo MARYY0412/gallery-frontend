@@ -13,6 +13,7 @@ export const ThemeContext = createContext(null);
 const App: React.FC = () => {
   const [theme, setTheme] = useState<string>("light-theme");
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [searchingPhrase, setSearchingPhrase] = useState<string>("")
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -58,11 +59,12 @@ const App: React.FC = () => {
               path="/accessDenied"
               element={<pages.AccessDenied theme={theme} />}
             />
-            <Route path="/" element={<pages.Home />} />
+            <Route path="/" element={<pages.Home setSearchingPhrase={setSearchingPhrase}/>} />
             <Route path="/login" element={<pages.Login />} />
             <Route path="/register" element={<pages.Register />} />
             <Route path="/forgot-password" element={<pages.ForgotPassword />} />
             <Route path="/Contact" element={<pages.Contact />} />
+            <Route path="/searching_bar_results" element={<pages.SearchingBarResults searchingPhrase={searchingPhrase}/>} />
             <Route element={<PrivateRouteAdmin />}>
               <Route path="/admin-panel" element={<pages.AdminPanel />} />
             </Route>

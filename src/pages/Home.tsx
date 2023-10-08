@@ -4,13 +4,20 @@ import homepage from "../components/homepage";
 //aos
 import AOS from "aos";
 import "aos/dist/aos.css";
-function Home() {
+
+
+interface Props {
+  setSearchingPhrase: React.Dispatch<React.SetStateAction<string>>,
+}
+function Home(props: Props) {
   useEffect(() => {
     AOS.init();
   }, []);
   return (
     <Content>
+      <homepage.MainSearchingBar setSearchingPhrase={props.setSearchingPhrase}/>
       <homepage.Slider />
+      <homepage.GetStarted />
       <homepage.TitleLabel title="Random user's photos...." />
       <homepage.RandomImages />
       <homepage.TitleLabel title="Best Rated Images" />

@@ -11,7 +11,7 @@ interface Props {
     avatar: string;
   };
 }
-function ProfileBox(props: Props) {
+function LoggedUserProfileBox(props: Props) {
   const [showPopup, setShowPopup] = useState<boolean>(false);
 
   const show = () => {
@@ -60,13 +60,13 @@ function ProfileBox(props: Props) {
   );
 }
 
-export default ProfileBox;
+export default LoggedUserProfileBox;
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 10px;
-  width: 300px;
+  width: 400px;
   height: 400px;
   border: 1px solid rgba(5, 5, 5, 0.4);
   border-radius: 10px;

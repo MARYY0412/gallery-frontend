@@ -20,6 +20,10 @@ function Menu(props: { ID: string; filename: string }) {
   //     });
   // };
 
+  const updateHandler = () => {
+    console.log("not working yet")
+  }
+
   const show = () => {
     setShowPopup(true);
   };
@@ -38,9 +42,9 @@ function Menu(props: { ID: string; filename: string }) {
           <button className="form-delete-button" onClick={show}>
             delete
           </button>
-          {/* <button className="form-button-class" onClick={updateHandler}>
+          <button className="form-button-class" onClick={updateHandler}>
         update
-      </button> */}
+      </button>
         </>
       )}
     </MenuBox>
@@ -50,13 +54,9 @@ function Menu(props: { ID: string; filename: string }) {
 export default Menu;
 
 const MenuBox = styled.div`
-  display: grid;
-  grid-template:
-    "a b"
-    "c c";
-  align-items: center;
-  .form-error-p {
-    text-align: center;
-    grid-column: 1 / 3;
-  }
+width: 100%;
+display: flex;
+justify-content: flex-end;
+align-items: center;
+margin: 10px;
 `;
