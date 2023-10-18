@@ -1,7 +1,30 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 function Contact() {
-  const [words, setWords] = useState<number>();
+  const [wordsCounter, setWordsCounter] = useState<number>(0);
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  let regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+  const [message, setMessage] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const [information, setInformation] = useState<string>("");
+
+
+  
+  const sendForm = () => {
+    console.log(regex.test(email));
+    if(name.length === 0 || email.length === 0 || message.length === 0){
+      setError("Fill the blanks!");
+      setInformation("")
+    }
+    else if (regex.test(email) === false) {
+      setError("Incorrect email address!");
+      setInformation("")
+    } else{
+      setInformation("The message has been send!")
+      setError("")
+    } 
+  }
 
   return (
     <ContactBox>
@@ -12,16 +35,31 @@ function Contact() {
           type="text"
           className="contact-text"
           placeholder="enter your name"
+          onChange={(e) => {
+            setName(e.target.value)
+          }}
         />
         <p className="contact-p">*email:</p>
         <input
           type="text"
           className="contact-text"
           placeholder="enter your email"
+          onChange={(e) => {
+            setEmail(e.target.value)
+          }}
         />
         <p className="contact-p">*your message:</p>
-        <textarea className="contact-text-area" />
-        <button className="form-button-class-2">send message</button>
+        <textarea className="contact-text-area"           
+        onChange={(e) => {
+            setMessage(e.target.value)
+          }}
+         />
+        <button className="form-button-class-2" onClick={(event) => {
+          event.preventDefault();
+          sendForm();
+        }}>send message</button>
+        <p className="contact-information-box">{information}</p>
+        <p className="contact-error-box">{error}</p>
       </form>
     </ContactBox>
   );
@@ -80,5 +118,14 @@ const ContactBox = styled.div`
 
   .form-button-class-2 {
     margin: 20px 10px;
+  }
+
+  .contact-information-box{
+    text-align: center;
+    color: green;
+  }
+  .contact-error-box{
+    color: red;
+    text-align: center;
   }
 `;

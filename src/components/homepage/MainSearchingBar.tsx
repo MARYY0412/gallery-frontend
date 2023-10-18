@@ -24,7 +24,7 @@ function MainSearchingBar(props: Props) {
                     if(phrase.length === 0){
                         setError("Searching input cannot be empty!")
                     } else{
-                        navigate("/searching_bar_results")
+                        navigate(`/searching_bar_results?query=${phrase}`)
                     } 
 
                 }}/>
@@ -42,24 +42,19 @@ const SearchingBarBox = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: rgba(217, 217, 214, 0.8);
-    /* background: rgb(2,0,36); */
-    /* background: linear-gradient(0deg, rgba(217, 217, 214, 1) 50%, rgba(11, 10, 22, 0.1) 120%); */
     > div{
         width: 40%;
-        /* border-bottom: 10px double rgba(217, 217, 214,1);
-        border-top: 5px double rgba(217, 217, 214,1); */
         display: flex;
         padding: 10px;
         background-color: white;
-        
         border-top-left-radius: 10px;
     }
     .main-searching-bar-input{
         width: 100%;
         outline: none;
         border: none;
-
+        border-bottom: 1px solid rgba(1, 1, 1, 0.1);
+        padding-left: 5px;
     }
     .main-searching-bar-icon{
         font-size: 2em;

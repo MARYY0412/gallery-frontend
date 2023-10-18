@@ -20,6 +20,10 @@ function Loading() {
 export default Loading;
 
 const LoadingPanelBox = styled.div`
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
   .loading-panel {
     * {
       margin: 50px;

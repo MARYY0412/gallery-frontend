@@ -78,7 +78,7 @@ function ImagePage() {
 export default ImagePage;
 
 const Container = styled.div`
-  width: 90vw;
+  width: 60vw;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -86,15 +86,13 @@ const Container = styled.div`
   .loading-panel {
     margin-top: 150px;
   }
-  img {
+  > img {
     width: 100%;
-    height: auto;
     cursor: grab;
   }
   //actions div
   .image-page-actions{
-    /* width: 100%; */
-    width: 80vw;
+    width: 100%;
     font-size: 2em;
     text-align: right;
     /* display: flex; */

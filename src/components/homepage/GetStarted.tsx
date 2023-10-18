@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import AOS from "aos";
 import "aos/dist/aos.css";
-
+import { useNavigate } from "react-router-dom";
 function GetStarted() {
-
+    const navigate = useNavigate();
     useEffect(() => {
         AOS.init();
       }, []);
@@ -12,7 +12,9 @@ function GetStarted() {
         <GetStartedBox data-aos="zoom-in"
         data-aos-offset="300"
         data-aos-easing="linear">
-            <button id="get-started-button-id" className="get-started-button">GET STARTED</button>
+            <button id="get-started-button-id" className="get-started-button" onClick={() => {
+                navigate("/login");
+            }}>GET STARTED</button>
             <img className="get-started-image" src={`./getstarted/getstarted.jpg`}alt="getstartedimage"/>
         </GetStartedBox>
     );

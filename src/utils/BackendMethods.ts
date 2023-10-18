@@ -16,7 +16,6 @@ export const loginMethod = async (username: string, password: string) => {
     return response.data.user;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      // Obsługa błędu zwróconego przez Axios
       const axiosError = error as AxiosError;
       if (axiosError.response?.status === 404)
         return { message: "user not found!" };

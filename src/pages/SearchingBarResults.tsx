@@ -1,96 +1,125 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import {HiOutlineViewGrid, HiOutlineViewList} from "react-icons/hi"
+import FiltersWrapper from "../components/searching/FiltersWrapper";
+import ResultsWrapper from "../components/searching/ResultsWrapper";
+import { SlMagnifier } from "react-icons/sl";
+import { IImage, IUser } from "../types/Types";
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 interface Props {
     searchingPhrase: string,
 }
-// const table = [
-//     {
-//         name: "eldoka"
-//     },
-//     {},
-//     {},
-//     {},
-//     {},
-// ]
 
 function SearchingBarResults(props: Props) {
 
-    const search = () => {
-        console.log("searching in progress..")
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const query = queryParams.get('query');
+    const navigate = useNavigate();
+ 
+    const fetchAll = async (phrase: string) => {
+        setLoading(true);
+        try{
+            let results = await axios.get(`http://127.0.0.1:3001/search/all`, {
+                params: {query: phrase}
+            });
+            setImages(results.data.images);     
+            setUsers(results.data.users);
+            setNumberOfResults(results.data.users.length+results.data.images.length)
+            setError("")
+            setLoading(false)
+        }catch(err){
+            setError("Cannot find any results")
+            setLoading(false)
+        }
+
     }
+    const fetchImages = async (phrase:string) => {
+        setLoading(true);
+        try{
+            let results = await axios.get(`http://127.0.0.1:3001/search/images`, {
+                params: {query: phrase}
+            });
+
+            setImages(results.data.images);     
+            setUsers([]);
+            setNumberOfResults(results.data.images.length);
+            setError("")
+            setLoading(false)
+        }catch(err){
+            setError("Cannot load any images!!")
+            setLoading(false)
+        }
+
+    }
+    const fetchUsers = async (phrase:string) => {
+        setLoading(true);
+        try{
+            let results = await axios.get(`http://127.0.0.1:3001/search/users`, {
+                params: {query: phrase}
+            });
+            setNumberOfResults(results.data.users.length);
+            setImages([]);  
+            setUsers(results.data.users);
+            setError("");
+            setLoading(false);
+        }catch(err){
+            setError("Cannot load any images!!");
+            setLoading(false)
+        }
+
+    }
+    const [error, setError] = useState<string>("")
+    const [phrase, setPhrase] = useState<string>((query !== null ? query : ""))
     const [viewType, setViewType] = useState<"list" | "grid">("grid")
-    const [results, setResults] = useState<any[]>([])
     const [numberOfResults, setNumberOfResults] = useState<number>(0)
-    const [activeFilter, setActiveFilter] = useState<"users" | "images" | "all">("all")
+    const [activeFilter, setActiveFilter] = useState<"users" | "images" | "all">("all");
+    const [loading, setLoading] = useState<boolean>(true);
+    const [images, setImages] = useState<IImage[]>([]);
+    const [users, setUsers] = useState<IUser[]>([]);
+
+
+    useEffect(() => {
+        axios.get(`http://127.0.0.1:3001/search/all`, {
+                params: {query: phrase}
+            }).then(results => {
+                setImages(results.data.images);
+                setUsers(results.data.users);
+                setLoading(false)
+                setError("")
+            }).catch(err => {
+                console.log("cannot fetch the data!")
+                setLoading(false)
+            })
+    }, [])
     return(
         <SearchingBarResultsBox>
             <div className="results-searching-bar">
-                <input type="text" placeholder="Type to search..."/>
-                <button onClick={() => {search()}}>FIND</button>
+            <div>
+                <input className="main-searching-bar-input" placeholder="Type to search..." onChange={(e) => {
+                    setPhrase(e.target.value)
+                }}/>
+                <SlMagnifier className="main-searching-bar-icon" onClick={() => {
+                        fetchAll(phrase)
+                        setActiveFilter("all")
+                        navigate(`/searching_bar_results?query=${phrase}`)
+                }}/>
             </div>
-            <h3 className="results-title">Results for "{props.searchingPhrase}" phrase ({numberOfResults})
+            </div>
+            <h3 className="results-title">Number of results({numberOfResults})
                 <div>
                     <HiOutlineViewGrid className={viewType === "grid" ? "view-active" : ""} onClick={() => setViewType("grid")}/>
                     <HiOutlineViewList className={viewType === "list" ? "view-active" : ""} onClick={() => setViewType("list")}/>
                 </div>
             </h3>
             <div className="results-container">
-                <div className="filters-wrapper">
-                    <h3>Filters</h3>
-                        <p className={activeFilter === "all" ? "active" : ""} onClick={() => {
-                            setActiveFilter("all")
-                        }}>all</p>
-                        <p className={activeFilter === "users" ? "active" : ""} onClick={() => {
-                            setActiveFilter("users")
-                        }}>users</p>
-                        <p className={activeFilter === "images" ? "active" : ""} onClick={() => {
-                            setActiveFilter("images")
-                        }}>images</p>
-                        {activeFilter === "images" ? (                    
-                        <div className="filters-categories">
-                            <div>
-                            <input type="checkbox" id="nature"/>
-                            <label htmlFor="nature">nature</label>
-                            </div>
-                            <div>
-                            <input type="checkbox" id="animals"/>
-                            <label htmlFor="animals">animals</label>
-                            </div>
-                            <div>
-                            <input type="checkbox" id="travel"/>
-                            <label htmlFor="travel">travel</label>
-                            </div>
-                            <div>
-                            <input type="checkbox" id="art"/>
-                            <label htmlFor="art">art</label>
-                            </div>
-                            <div>
-                            <input type="checkbox" id="others"/>
-                            <label htmlFor="others">others</label>
-                            </div>
-                        </div>) : <></>}
-
-                </div>
-                <div className={viewType === "list" ? "results-div list-class" : "results-div grid-class"}>
-                    <p>s</p>
-                    <p>ssad</p>
-                    <p>sads</p>
-                    <p>sdas</p>
-                    <p>s</p>
-                    <p>ssad</p>
-                    <p>sads</p>
-                    <p>sdas</p>
-                    <p>s</p>
-                    <p>ssad</p>
-                    <p>sads</p>
-                    <p>sdas</p>
-                    <p>s</p>
-                    <p>ssad</p>
-                    <p>sads</p>
-                    <p>sdas</p>
-                </div>
+                    <FiltersWrapper activeFilter={activeFilter} setActiveFilter={setActiveFilter} fetchImages={fetchImages} fetchUsers={fetchUsers} fetchAll={fetchAll} phrase={phrase}/>
+                    {error.length !== 0 ? 
+                    <ErrorBox><p>{error}</p></ErrorBox> 
+                    : 
+                    <ResultsWrapper viewType={viewType} loading={loading} images={images} users={users}/>
+                    }
             </div>
         </SearchingBarResultsBox>
     );
@@ -111,20 +140,27 @@ const SearchingBarResultsBox = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-        > input[type="text"]{
-            outline: none;
-            width: 40%;
-            font-size: 1.5em;
-            padding: 5px;
-        }
-        > button {
-            width: 20%;
-            /* margin: 5%; */
-            padding: 0.5%;
-            font-size: 1.5em;
-            color: gray;
-            letter-spacing: 5px;
-        }
+
+    > div{
+        width: 40%;
+        display: flex;
+        padding: 10px;
+        background-color: white;
+        border-top-left-radius: 10px;
+    }
+    .main-searching-bar-input{
+        width: 100%;
+        outline: none;
+        border: none;
+        border-bottom: 1px solid rgba(1, 1, 1, 0.1);
+        padding-left: 5px;
+    }
+    .main-searching-bar-icon{
+        font-size: 2em;
+        height: 100%;
+        cursor: pointer;
+        color: rgba(217, 217, 214, 1);
+    }
     }
     .results-title{
         display: flex;
@@ -149,64 +185,31 @@ const SearchingBarResultsBox = styled.div`
     .results-container{
         width: 100%;
         display: flex;
-    }
-    .filters-wrapper{
-        min-width: 200px;
-        display: flex;
-        flex-direction: column;
-        > p{
-            margin: 10px 0px;
-            width: 100%;
-            text-align: center;
-            border-bottom: 1px solid transparent;
-            cursor: pointer;
-            :hover{
-                border-bottom: 1px solid lightgray;
-            }
-        }
-
-        .active{
-                border-bottom: 1px solid lightgray;
-                font-weight: 600;
-            }
-    }
-    .filters-categories{
-        > div {
-            padding: 0px;
-            margin: 0px;
-
-            
-            > input{
-            margin: 20px 5px;
-            }
-        }
-
-
-        
-    }
-    .results-div{
-        width: 100%;
-        height: auto;
-        padding: 1%;
-        }
-        .list-class{
-            > p {
-                width: 100%;
-                text-align: center;
-                padding: 5%;
-                background-color: lightgray;
-                margin: 2% 0%;
-            }
-        }
-        .grid-class{
+        text-align: center;
+        @media screen and (max-width: 768px){
             display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            > p {
-                margin: 1%;
-                width: 200px;
-                height: 300px;
-                border: 1px solid gray;
-            }
+            flex-direction: column;
         }
+    }
+    //classes for displaying data
+    .results-div {
+        width: 100%;
+        padding: 0% 1%;
+        height: auto;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: center;
+    }
+`
+
+const ErrorBox = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > p {
+        font-size: 3em;
+    }
 `
